@@ -1,0 +1,4 @@
+{
+  "light": { "light": "#c7f8ff", "default": "#c7f8ff", "dark": "#93b8c4", "text": "#2c3e50" },
+  "passion": { "default": "#2c3e50", "light": "#d15f5f", "dark": "#c93131", "text": "#f3f3f3" }
+}
