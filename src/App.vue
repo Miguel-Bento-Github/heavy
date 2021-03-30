@@ -1,7 +1,15 @@
 <template>
-  <main @resize="setRect" @mousemove="moveApp" ref="app" class="app" :class="`app--${activeTheme}`">
-    <Button @split="showSplit = !showSplit" @update-theme="updateTheme()" />
-    <Split :url="imageURL" :isOpen="showSplit" />
+  <main>
+    <section
+      @resize="setRect"
+      @mousemove="moveApp"
+      ref="app"
+      class="app"
+      :class="`app--${activeTheme}`"
+    >
+      <Button @split="showSplit = !showSplit" @update-theme="updateTheme()" />
+      <Split :url="imageURL" :isOpen="showSplit" @update-image="updateImage()" />
+    </section>
   </main>
 </template>
 
@@ -18,20 +26,27 @@
     },
     data() {
       return {
-        rect: 0,
-        showSplit: true,
+        cardSize: null,
+        showSplit: false,
         theme: theme,
         activeTheme: 'light',
         imageURL: `https://source.unsplash.com/random/`,
       };
     },
     methods: {
-      async updateTheme() {
+      updateTheme() {
         const { passion, light } = this.theme;
         const newTheme = this.activeTheme === 'light' ? passion : light;
         this.updateColorProperties(Object.entries(newTheme));
-        document.body.style.setProperty(`--image`, `url(${this.imageURL}?${this.activeTheme})`);
+        this.updateImage();
         this.activeTheme = this.activeTheme === 'light' ? 'passion' : 'light';
+      },
+      updateImage() {
+        const randomChar = Math.random()
+          .toString(36)
+          .substring(10);
+        this.imageURL = `${this.imageURL}?${randomChar}`;
+        document.body.style.setProperty(`--image`, `url(${this.imageURL}?${this.activeTheme})`);
       },
       /**
        * Sets the new theme colors by changing the css property correspondent to @arg name
@@ -50,14 +65,17 @@
       moveApp(event) {
         this.setClientCoordinates(event);
       },
+      /**
+       * Sets card size.
+       */
       setRect() {
         const { app } = this.$refs;
-        this.rect = app.getBoundingClientRect();
+        this.cardSize = app.getBoundingClientRect();
       },
       setClientCoordinates(event) {
         const { clientX, clientY } = event;
         const { app } = this.$refs;
-        const { left, right, top, bottom } = this.rect;
+        const { left, right, top, bottom } = this.cardSize;
 
         const horizontalCenter = (left + right) / 2;
         const x = horizontalCenter - clientX;
@@ -66,12 +84,11 @@
         const y = verticalCenter - clientY;
 
         app.style.setProperty('--shadowX', `${x / 100}px`);
-        app.style.setProperty('--shadowY', `${-y / 50}px`);
+        app.style.setProperty('--shadowY', `${-y / 100}px`); // I use the negative values to introduce the idea of mouse weight.
         app.style.setProperty('--rotateY', `${x / 100}deg`);
-        app.style.setProperty('--rotateX', `${-y / 50}deg`);
+        app.style.setProperty('--rotateX', `${-y / 100}deg`); // I use the negative values to introduce the idea of mouse weight.
       },
     },
-
     mounted() {
       this.setRect();
     },
@@ -89,7 +106,6 @@
     --dark: rgb(146, 183, 195);
     --text: rgb(44, 62, 80);
     --image: url(https://source.unsplash.com/random);
-
     --shadowX: 5px;
     --shadowY: -5px;
   }
@@ -109,6 +125,7 @@
     height: 100vh;
     width: 100vw;
     padding: 5rem;
+    display: grid;
   }
 
   .app {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div ref="container" class="container">
     <input
       ref="split"
       @input="$refs.split.style.setProperty('--value', +$refs.split.value)"
@@ -8,14 +8,19 @@
       style="--value: 50"
     />
     <img class="image" :src="url" alt="" />
+    <div ref="reload" class="reload" @click="$emit('update-image')"><Reload /></div>
   </div>
 </template>
 
 <script>
   import gsap from 'gsap';
+  import Reload from '../assets/svg/Reload';
 
   export default {
     name: 'Split',
+    components: {
+      Reload,
+    },
     props: {
       isOpen: Boolean,
       url: String,
@@ -27,26 +32,32 @@
     },
     methods: {
       grow() {
-        const { split } = this.$refs;
-        this.timeline = gsap.from(split, {
-          autoAlpha: 0,
-          height: 0,
+        const { container } = this.$refs;
+        this.timeline = gsap.to(container, {
+          autoAlpha: 1,
+          height: '30rem',
           duration: 1,
           ease: 'power1.out',
+          delay: 0.2,
         });
+      },
+      animateRotate() {
+        const { reload } = this.$refs;
+        gsap.from(reload, {});
       },
     },
     watch: {
       isOpen(appear) {
+        console.log(this.isOpen);
         if (appear) {
-          this.timeline.play();
+          this.grow();
         } else {
           this.timeline.reverse();
         }
       },
     },
     mounted() {
-      this.grow();
+      this.animateRotate();
     },
   };
 </script>
@@ -56,7 +67,8 @@
     margin-top: 2rem;
     position: relative;
     width: 100%;
-    height: 30rem;
+    height: 0;
+    opacity: 0;
   }
 
   .defaults {
@@ -67,6 +79,7 @@
     width: 100%;
     display: block;
     border-radius: 1rem;
+    overflow: hidden;
   }
 
   .image {
@@ -81,7 +94,9 @@
     outline: thin;
     z-index: 1;
     padding: 0;
-    opacity: 0.3;
+    opacity: 0.9;
+    background: linear-gradient(90deg, transparent var(--p), var(--text) 0);
+    mix-blend-mode: difference;
   }
 
   @mixin track() {
@@ -90,16 +105,14 @@
     height: 100%;
     background: linear-gradient(90deg, transparent var(--p), var(--default) 0);
     border-radius: 0.5rem;
-    mix-blend-mode: exclusion;
   }
 
   @mixin thumb() {
     border: none;
-    width: 2%;
+    width: 1%;
     height: 100%;
     background: conic-gradient(from -20deg at top left, var(--dark), var(--text));
     filter: drop-shadow(0 0 2px var(--dark));
-    border-radius: 1rem;
     cursor: move;
   }
 
@@ -118,6 +131,23 @@
 
     &::-webkit-slider-thumb {
       @include thumb;
+    }
+  }
+
+  .reload {
+    position: absolute;
+    height: 3rem;
+    width: 3rem;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    fill: #fff;
+    cursor: pointer;
+    filter: drop-shadow(3px 1px 4px var(--text));
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+      transform: rotate(180deg);
     }
   }
 </style>
