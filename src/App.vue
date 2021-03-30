@@ -29,7 +29,6 @@
   import Button from './components/Buttons.vue';
   import Split from './components/Split.vue';
   import theme from './assets/themes.json';
-  import { createApi } from 'unsplash-js';
 
   export default {
     name: 'App',
@@ -44,16 +43,11 @@
         showSplit: false,
         theme: theme,
         activeTheme: 'light',
-        imageURL: `https://source.unsplash.com/random/`,
+        imageURL: `https://source.unsplash.com/random/${window.innerWidth}x${window.innerHeight}`,
         imageAPI: null,
       };
     },
     methods: {
-      async setImageAPI() {
-        this.imageAPI = createApi({
-          apiUrl: 'http://192.168.5.213:8080/',
-        });
-      },
       updateTheme() {
         const { passion, light } = this.theme;
         const newTheme = this.activeTheme === 'light' ? passion : light;
@@ -67,12 +61,13 @@
           .toString(36)
           .substring(10);
 
+        this.imageURL = `${this.imageURL}?${this.activeTheme}?${randomChar}/${window.innerWidth}x${window.innerHeight}`;
         const img = await fetch(this.imageURL);
 
         if (img.url.includes('404')) {
           this.updateImage();
         } else {
-          this.imageURL = `${this.imageURL}?${randomChar}`;
+          this.imageURL = img.url;
         }
 
         setTimeout(() => {
@@ -122,7 +117,6 @@
     },
     mounted() {
       this.setRect();
-      this.setImageAPI();
     },
   };
 </script>

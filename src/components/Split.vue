@@ -86,7 +86,6 @@
     @extend .defaults;
     z-index: 0;
     object-fit: cover;
-    object-position: center 10%;
   }
 
   .split {
