@@ -1,24 +1,14 @@
-# buttons
+# Mix blend
 
-## Project setup
-```
-npm install
-```
+Learn more about mix blend mode at
+[Mozilla](https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## To run this project
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Yarn is preferred but npm will also suffice.
 
-### Lints and fixes files
-```
-npm run lint
-```
+You can install your dependencies with `yarn install` or `npm install`.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Run locally with `yarn serve` or `npm run serve`.
+
+Deployed version at

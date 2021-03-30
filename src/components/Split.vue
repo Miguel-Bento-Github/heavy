@@ -8,20 +8,26 @@
       style="--value: 50"
     />
     <img class="image" :src="url" alt="" />
-    <div ref="reload" class="reload" @click="$emit('update-image')"><Reload /></div>
+    <div ref="reload" class="reload" @click="$emit('update-image')">
+      <Reload />
+    </div>
+    <Spinner class="spinner" v-if="isLoading" />
   </div>
 </template>
 
 <script>
   import gsap from 'gsap';
   import Reload from '../assets/svg/Reload';
+  import Spinner from '../components/Spinner';
 
   export default {
     name: 'Split',
     components: {
       Reload,
+      Spinner,
     },
     props: {
+      isLoading: Boolean,
       isOpen: Boolean,
       url: String,
     },
@@ -41,14 +47,9 @@
           delay: 0.2,
         });
       },
-      animateRotate() {
-        const { reload } = this.$refs;
-        gsap.from(reload, {});
-      },
     },
     watch: {
       isOpen(appear) {
-        console.log(this.isOpen);
         if (appear) {
           this.grow();
         } else {
@@ -56,13 +57,12 @@
         }
       },
     },
-    mounted() {
-      this.animateRotate();
-    },
   };
 </script>
 
 <style lang="scss" scoped>
+  @import url('../animation/rotate.css');
+
   .container {
     margin-top: 2rem;
     position: relative;
@@ -134,10 +134,16 @@
     }
   }
 
+  .spinner {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
   .reload {
     position: absolute;
-    height: 3rem;
-    width: 3rem;
+    height: 64px;
+    width: 64px;
     top: 0;
     right: 0;
     z-index: 1;
