@@ -8,7 +8,7 @@
       style="--value: 50"
     />
     <img class="image" :src="url" alt="" />
-    <div ref="reload" class="reload" @click="$emit('update-image')">
+    <div ref="reload" v-if="isOpen" class="reload" @click="$emit('update-image')">
       <Reload />
     </div>
     <Spinner class="spinner" v-if="isLoading" />
@@ -42,8 +42,9 @@
         this.timeline = gsap.to(container, {
           autoAlpha: 1,
           height: '30rem',
-          duration: 1,
+          marginTop: '2rem',
           ease: 'power1.out',
+          duration: 1,
           delay: 0.2,
         });
       },
@@ -64,7 +65,6 @@
   @import url('../animation/rotate.css');
 
   .container {
-    margin-top: 2rem;
     position: relative;
     width: 100%;
     height: 0;
@@ -94,7 +94,7 @@
     z-index: 1;
     padding: 0;
     opacity: 0.9;
-    background: linear-gradient(90deg, transparent var(--p), var(--text) 0);
+    background: linear-gradient(90deg, transparent var(--p), var(--light) 0);
     mix-blend-mode: difference;
   }
 
@@ -146,13 +146,23 @@
     top: 0;
     right: 0;
     z-index: 1;
-    fill: #fff;
     cursor: pointer;
-    filter: drop-shadow(3px 1px 4px var(--text));
+    fill: var(--default);
+    filter: drop-shadow(3px 1px 4px var(--default));
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    mix-blend-mode: exclusion;
+
+    &--enlighten {
+      fill: var(--text);
+      filter: drop-shadow(3px 1px 4px var(--text));
+    }
 
     &:hover {
-      transform: rotate(180deg);
+      transform: rotate(90deg);
+    }
+
+    &:active {
+      transform: rotate(360deg);
     }
   }
 </style>

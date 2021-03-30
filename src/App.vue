@@ -107,12 +107,12 @@
         const x = horizontalCenter - clientX;
 
         const verticalCenter = (top + bottom) / 2;
-        const y = verticalCenter - clientY;
+        const y = -(verticalCenter - clientY);
 
         app.style.setProperty('--shadowX', `${x / 100}px`);
-        app.style.setProperty('--shadowY', `${-y / 100}px`); // I use the negative values to introduce the idea of mouse weight.
+        app.style.setProperty('--shadowY', `${y / 100}px`); // I use the negative values to introduce the idea of mouse weight.
         app.style.setProperty('--rotateY', `${x / 100}deg`);
-        app.style.setProperty('--rotateX', `${-y / 100}deg`); // I use the negative values to introduce the idea of mouse weight.
+        app.style.setProperty('--rotateX', `${y / 100}deg`); // I use the negative values to introduce the idea of mouse weight.
       },
     },
     mounted() {
@@ -170,7 +170,6 @@
       transform: scaleY(0.05);
       transform-origin: 0 95%;
       transition: transform 0.2s;
-
       border-radius: 4px;
     }
 
