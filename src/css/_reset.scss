@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  isolation: isolate;
+}
+
+a {
+  display: inline-block;
+  position: relative;
+  color: var(--text);
+  text-decoration: none;
+  padding: 0 0.4rem;
+  isolation: isolate;
+
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: var(--dark);
+    mix-blend-mode: difference;
+    transform: scaleY(0.05);
+    transform-origin: 0 95%;
+    transition: transform 0.2s;
+    border-radius: 4px;
+  }
+
+  &:focus {
+    outline: none;
+  }
+  &:focus,
+  &:hover {
+    &::after {
+      transform: none;
+    }
+  }
+}

@@ -101,18 +101,19 @@
       setClientCoordinates(event) {
         const { clientX, clientY } = event;
         const { app } = this.$refs;
-        const { left, right, top, bottom } = this.cardSize;
+
+        const { left, right, top, bottom } = app.getBoundingClientRect();
 
         const horizontalCenter = (left + right) / 2;
-        const x = horizontalCenter - clientX;
+        const x = -(horizontalCenter - clientX);
 
         const verticalCenter = (top + bottom) / 2;
-        const y = -(verticalCenter - clientY);
+        const y = verticalCenter - clientY;
 
-        app.style.setProperty('--shadowX', `${x / 100}px`);
-        app.style.setProperty('--shadowY', `${y / 100}px`); // I use the negative values to introduce the idea of mouse weight.
-        app.style.setProperty('--rotateY', `${x / 100}deg`);
-        app.style.setProperty('--rotateX', `${y / 100}deg`); // I use the negative values to introduce the idea of mouse weight.
+        app.style.setProperty('--shadowX', `${-x / 70}px`);
+        app.style.setProperty('--shadowY', `${-y / 70}px`); // I use the negative values to introduce the idea of mouse weight.
+        app.style.setProperty('--rotateY', `${x / 70}deg`);
+        app.style.setProperty('--rotateX', `${y / 70}deg`); // I use the negative values to introduce the idea of mouse weight.
       },
     },
     mounted() {
@@ -122,6 +123,7 @@
 </script>
 
 <style lang="scss">
+  @import './css/reset.scss';
   @import url('https://fonts.googleapis.com/css?family=Pontano+Sans:400');
   @import './animation/morph.css';
   @import './css/typography.css';
@@ -131,57 +133,6 @@
     --light: rgb(199, 248, 255);
     --dark: rgb(146, 183, 195);
     --text: rgb(44, 62, 80);
-    --shadowX: 5px;
-    --shadowY: -5px;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-  }
-
-  p {
-    isolation: isolate;
-  }
-
-  a {
-    display: inline-block;
-    position: relative;
-    color: var(--text);
-    text-decoration: none;
-    padding: 0 0.4rem;
-
-    &::after {
-      position: absolute;
-      content: '';
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-      background: currentColor;
-      mix-blend-mode: exclusion;
-      transform: scaleY(0.05);
-      transform-origin: 0 95%;
-      transition: transform 0.2s;
-      border-radius: 4px;
-    }
-
-    &:focus {
-      outline: none;
-    }
-    &:focus,
-    &:hover {
-      &::after {
-        transform: none;
-      }
-    }
   }
 
   #app {
@@ -197,11 +148,13 @@
   }
 
   .app {
+    width: max-content;
+    margin: auto;
     border-radius: 1rem;
     box-shadow: calc(-1 * var(--shadowX)) var(--shadowY) 30px var(--default),
       var(--shadowX) calc(-1 * var(--shadowY)) 30px var(--text);
-    padding: 5rem;
-    transition: box-shadow 0.4s ease, transform 0.2s ease-out;
+    padding: 2.5rem 5rem 5rem;
+    transition: box-shadow 0.2s cubic-bezier(0.19, 1, 0.22, 1), transform 0.2s ease-out;
   }
 
   .app:hover {

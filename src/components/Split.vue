@@ -42,10 +42,12 @@
         this.timeline = gsap.to(container, {
           autoAlpha: 1,
           height: '30rem',
+          width: '40vw',
           marginTop: '2rem',
           ease: 'power1.out',
           duration: 1,
           delay: 0.2,
+          onComplete: this.$emit('update-rect'),
         });
       },
     },
