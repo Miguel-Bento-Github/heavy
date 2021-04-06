@@ -8,7 +8,7 @@
       style="--value: 50"
     />
     <img class="image" :src="url" alt="" />
-    <div ref="reload" v-if="isOpen" class="reload" @click="$emit('update-image')">
+    <div ref="reload" v-if="isOpen" class="reload" @click="reload()">
       <Reload />
     </div>
     <Spinner class="spinner" v-if="isLoading" />
@@ -48,6 +48,19 @@
           duration: 1,
           delay: 0.2,
           onComplete: this.$emit('update-rect'),
+        });
+      },
+      reload() {
+        const { reload } = this.$refs;
+        this.$emit('update-image');
+
+        const timeline = gsap.timeline();
+
+        timeline.from(reload, {
+          rotate: 360,
+          duration: 2.5,
+          ease: 'elastic.out(1, 0.3)',
+          clearProps: 'all',
         });
       },
     },
@@ -161,10 +174,6 @@
 
     &:hover {
       transform: rotate(90deg);
-    }
-
-    &:active {
-      transform: rotate(360deg);
     }
   }
 </style>

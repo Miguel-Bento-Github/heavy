@@ -37,7 +37,7 @@
     outline: thin;
     background: conic-gradient(from -90deg at top left, var(--light), var(--default));
     box-shadow: 8px 8px 26px var(--dark), -8px -8px 26px var(--default);
-    transition: all 0.4s ease;
+    transition: all 0.2s ease;
     color: var(--text);
     cursor: pointer;
   }

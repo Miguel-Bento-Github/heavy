@@ -123,10 +123,9 @@
 </script>
 
 <style lang="scss">
-  @import './css/reset.scss';
-  @import url('https://fonts.googleapis.com/css?family=Pontano+Sans:400');
+  @import './style/reset.scss';
+  @import './style/typography.scss';
   @import './animation/morph.css';
-  @import './css/typography.css';
 
   :root {
     --default: rgb(185, 234, 241);
@@ -153,7 +152,7 @@
     border-radius: 1rem;
     box-shadow: calc(-1 * var(--shadowX)) var(--shadowY) 30px var(--default),
       var(--shadowX) calc(-1 * var(--shadowY)) 30px var(--text);
-    padding: 2.5rem 5rem 5rem;
+    padding: 2.5rem;
     transition: box-shadow 0.2s cubic-bezier(0.19, 1, 0.22, 1), transform 0.2s ease-out;
   }
 
