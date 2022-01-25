@@ -1,16 +1,12 @@
 <template>
-  <section>
-    <h1>Mix Blend</h1>
-
-    <div class="container">
-      <button @click="$emit('split')" class="button button-a">
-        Blend
-      </button>
-      <button @click="$emit('update-theme')" class="button button-b">
-        Theme
-      </button>
-    </div>
-  </section>
+  <div class="container">
+    <button @click="$emit('split')" class="button button-a">
+      Blend
+    </button>
+    <button @click="$emit('update-theme')" class="button button-b">
+      Theme
+    </button>
+  </div>
 </template>
 
 <script>
@@ -22,19 +18,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 section {
   position: relative;
 }
 .container {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
   left: 0;
   width: 100%;
+  padding: 1rem;
   display: flex;
-  gap: 2rem;
   justify-content: space-between;
   align-items: flex-start;
+  pointer-events: none;
+
+  @media screen and (min-width: 800px) {
+    padding: 5rem;
+  }
 }
 
 .button {
@@ -51,6 +53,7 @@ section {
   transition: all 0.2s ease;
   color: var(--text);
   cursor: pointer;
+  pointer-events: all;
 }
 
 .button:hover {

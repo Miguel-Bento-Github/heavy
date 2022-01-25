@@ -7,7 +7,7 @@
       class="app"
       :class="`app--${activeTheme}`"
     >
-      <Button @split="showSplit = !showSplit" @update-theme="updateTheme()" />
+      <h1>Mix Blend</h1>
       <Split
         :isLoading="isLoading"
         :url="imageURL"
@@ -15,8 +15,9 @@
         @update-image="updateImage()"
       />
     </section>
+    <Buttons @split="showSplit = !showSplit" @update-theme="updateTheme()" />
     <transition name="fade">
-      <h2 v-if="!showSplit">
+      <h2 class="doc" v-if="!showSplit">
         Learn more about mix blend mode through Mozilla's
         <a
           href="https://developer.mozilla.org/en-US/docs/Web/CSS/mix-blend-mode"
@@ -30,13 +31,13 @@
 
 <script>
 import theme from "./assets/themes.json";
-import Button from "./components/Buttons.vue";
+import Buttons from "./components/Buttons.vue";
 import Split from "./components/Split.vue";
 
 export default {
   name: "App",
   components: {
-    Button,
+    Buttons,
     Split,
   },
   data() {
@@ -148,6 +149,7 @@ export default {
   height: 100%;
   width: 100%;
   display: grid;
+  position: relative;
 }
 
 .app {
@@ -181,5 +183,12 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+</style>
+
+
+<style lang="scss" scoped>
+.doc {
+  padding-bottom: 5rem;
 }
 </style>

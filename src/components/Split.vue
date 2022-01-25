@@ -126,11 +126,15 @@ export default {
 
 @mixin thumb() {
   border: none;
-  width: 1%;
+  width: 3%;
   height: 100%;
   background: conic-gradient(from -20deg at top left, var(--dark), var(--text));
   filter: drop-shadow(0 0 2px var(--dark));
   cursor: move;
+
+  @media screen and (min-width: 800px) {
+    width: 1%;
+  }
 }
 
 [type="range"] {
@@ -168,7 +172,7 @@ export default {
   fill: var(--default);
   filter: drop-shadow(3px 1px 4px var(--default));
   transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  mix-blend-mode: exclusion;
+  mix-blend-mode: difference;
 
   &--enlighten {
     fill: var(--text);
