@@ -39,23 +39,6 @@ section {
   }
 }
 
-.button {
-  border: 0;
-  border-radius: 21% 79% 21% 79% / 69% 23% 77% 31%;
-  padding: 1rem;
-  outline: thin;
-  background: conic-gradient(
-    from -90deg at top left,
-    var(--light),
-    var(--default)
-  );
-  box-shadow: 8px 8px 26px var(--dark), -8px -8px 26px var(--default);
-  transition: all 0.2s ease;
-  color: var(--text);
-  cursor: pointer;
-  pointer-events: all;
-}
-
 .button:hover {
   box-shadow: 6px 6px 15px var(--dark), -6px -6px 15px var(--default);
 }
@@ -65,10 +48,10 @@ section {
 }
 
 .button-a {
-  animation: morph-a 10s ease-in-out infinite alternate;
+  animation: morph-a 6s ease-in-out infinite alternate;
 }
 
 .button-b {
-  animation: morph-b 10s ease-in-out infinite alternate;
+  animation: morph-b 6s ease-in-out infinite alternate;
 }
 </style>

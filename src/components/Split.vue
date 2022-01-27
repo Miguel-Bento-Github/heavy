@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="container">
+  <div @mouseenter="tooltip = false" ref="container" class="container">
     <input
       ref="split"
       @input="$refs.split.style.setProperty('--value', +$refs.split.value)"
@@ -7,7 +7,16 @@
       type="range"
       style="--value: 50"
     />
-    <img class="image" :src="url" alt="" />
+    <span v-if="tooltip" class="tooltip"
+      >Drag the bar, change theme or reload</span
+    >
+    <img
+      v-if="img"
+      class="image"
+      :src="img.src.original || img.src.xl || img.src.large || img.src.small"
+      :alt="img.alt"
+      :title="`Author ${img.author}`"
+    />
     <div ref="reload" v-if="isOpen" class="reload" @click="reload()">
       <Reload />
     </div>
@@ -29,11 +38,12 @@ export default {
   props: {
     isLoading: Boolean,
     isOpen: Boolean,
-    url: String,
+    img: Object,
   },
   data() {
     return {
       timeline: gsap.timeline(),
+      tooltip: true,
     };
   },
   methods: {
@@ -114,6 +124,7 @@ export default {
   opacity: 0.9;
   background: linear-gradient(90deg, transparent var(--p), var(--light) 0);
   mix-blend-mode: difference;
+  cursor: move;
 }
 
 @mixin track() {
@@ -130,7 +141,6 @@ export default {
   height: 100%;
   background: conic-gradient(from -20deg at top left, var(--dark), var(--text));
   filter: drop-shadow(0 0 2px var(--dark));
-  cursor: move;
 
   @media screen and (min-width: 800px) {
     width: 1%;
@@ -182,5 +192,12 @@ export default {
   &:hover {
     transform: rotate(90deg);
   }
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  top: 24%;
+  left: 51%;
 }
 </style>

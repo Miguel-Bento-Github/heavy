@@ -9,8 +9,8 @@
     >
       <h1>Mix Blend</h1>
       <Split
-        :isLoading="isLoading"
-        :url="imageURL"
+        :isLoading="isLoading || !image"
+        :img="image"
         :isOpen="showSplit"
         @update-image="updateImage()"
       />
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { createClient } from "pexels";
 import theme from "./assets/themes.json";
 import Buttons from "./components/Buttons.vue";
 import Split from "./components/Split.vue";
@@ -47,8 +48,12 @@ export default {
       showSplit: true,
       theme: theme,
       activeTheme: "light",
-      imageURL: `https://source.unsplash.com/random/${window.innerWidth}x${window.innerHeight}`,
-      imageAPI: null,
+      image: null,
+      currentImage: 0,
+      images: [],
+      imageClient: createClient(
+        process.env.VUE_APP_API
+      ),
     };
   },
   methods: {
@@ -56,27 +61,39 @@ export default {
       const { passion, light } = this.theme;
       const newTheme = this.activeTheme === "light" ? passion : light;
       this.updateColorProperties(Object.entries(newTheme));
-      this.updateImage();
       this.activeTheme = this.activeTheme === "light" ? "passion" : "light";
+      this.getImages()
     },
-    async updateImage() {
+    updateImage() {
       this.isLoading = true;
-      const randomChar = Math.random()
-        .toString(36)
-        .substring(10);
-
-      this.imageURL = `${this.imageURL}?${this.activeTheme}?${randomChar}/${window.innerWidth}x${window.innerHeight}`;
-      const img = await fetch(this.imageURL);
-
-      if (img.url.includes("404")) {
-        this.updateImage();
-      } else {
-        this.imageURL = img.url;
-      }
+      if (!this.images[this.currentImage++]) this.getImages();
+      this.image = this.images[this.currentImage++];
 
       setTimeout(() => {
         this.isLoading = false;
       }, 1300);
+    },
+    getImages() {
+      this.imageClient.photos
+        .search({ query: this.activeTheme, per_page: 10 })
+        .then(({ photos }) => {
+          const [photo] = photos;
+          this.images = photos;
+          const image = {
+            author: photo.photographer,
+            authorURL: photo.photographer_url,
+
+            src: {
+              original: photo.src.original,
+              landscape: photo.src.landscape,
+              xl: photo.src.large2x,
+              large: photo.src.large,
+              small: photo.src.small,
+            },
+            alt: photo.alt,
+          };
+          this.image = image;
+        });
     },
     /**
      * Sets the new theme colors by changing the css property correspondent to @arg name
@@ -120,6 +137,9 @@ export default {
       app.style.setProperty("--rotateX", `${y / 70}deg`); // I use the negative values to introduce the idea of mouse weight.
     },
   },
+  created() {
+    this.getImages();
+  },
   mounted() {
     const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (isDark) this.updateTheme();
@@ -161,6 +181,10 @@ export default {
   padding: 2.5rem;
   transition: box-shadow 0.2s cubic-bezier(0.19, 1, 0.22, 1),
     transform 0.2s ease-out;
+
+  @media screen and (max-width: 450px) and (max-height: 500px) {
+    padding: 1rem;
+  }
 }
 
 .app:hover {
@@ -185,7 +209,6 @@ export default {
   opacity: 0;
 }
 </style>
-
 
 <style lang="scss" scoped>
 .doc {
