@@ -47,22 +47,20 @@ export default {
       cardSize: null,
       showSplit: true,
       theme: theme,
-      activeTheme: "light",
+      activeTheme: "web",
       image: null,
       currentImage: 0,
       images: [],
-      imageClient: createClient(
-        process.env.VUE_APP_API
-      ),
+      imageClient: createClient(process.env.VUE_APP_API),
     };
   },
   methods: {
     updateTheme() {
-      const { passion, light } = this.theme;
-      const newTheme = this.activeTheme === "light" ? passion : light;
+      const { pattern, web } = this.theme;
+      const newTheme = this.activeTheme === "pattern" ? pattern : web;
       this.updateColorProperties(Object.entries(newTheme));
-      this.activeTheme = this.activeTheme === "light" ? "passion" : "light";
-      this.getImages()
+      this.activeTheme = this.activeTheme === "web" ? "pattern" : "web";
+      this.getImages();
     },
     updateImage() {
       this.isLoading = true;

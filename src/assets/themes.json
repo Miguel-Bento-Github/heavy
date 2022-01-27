@@ -1,11 +1,11 @@
 {
-  "light": {
+  "pattern": {
     "light": "rgb(199, 248, 255)",
     "default": "rgb(185, 234, 241)",
     "dark": "rgb(146, 183, 195)",
     "text": "rgb(44, 62, 80)"
   },
-  "passion": {
+  "web": {
     "light": "rgb(209, 95, 95)",
     "default": "rgb(44, 62, 80)",
     "dark": "rgb(201, 49, 49)",
