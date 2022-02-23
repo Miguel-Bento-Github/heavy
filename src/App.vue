@@ -31,6 +31,7 @@
 
 <script>
 import { createClient } from "pexels";
+import img from './assets/default.webp';
 import theme from "./assets/themes.json";
 import Buttons from "./components/Buttons.vue";
 import Split from "./components/Split.vue";
@@ -91,6 +92,21 @@ export default {
             alt: photo.alt,
           };
           this.image = image;
+        }).catch(() => {
+          const image = {
+            author: 'Steve Johnson',
+            authorURL: 'https://www.pexels.com/@steve',
+
+            src: {
+              original: img,
+              landscape: img,
+              xl: img,
+              large: img,
+              small: img,
+            },
+            alt: 'Orange Red and Blue Abstract Painting',
+          };
+          this.image = image
         });
     },
     /**
