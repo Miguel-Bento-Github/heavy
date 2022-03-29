@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import gsap from "gsap";
-import Reload from "../assets/svg/Reload";
-import Spinner from "../components/Spinner";
+import gsap from 'gsap'
+import Reload from '../assets/svg/Reload'
+import Spinner from '../components/Spinner'
 
 export default {
-  name: "Split",
+  name: 'Split',
   components: {
     Reload,
     Spinner,
@@ -44,52 +44,51 @@ export default {
     return {
       timeline: gsap.timeline(),
       tooltip: true,
-    };
+    }
   },
   methods: {
     grow() {
-      const { container } = this.$refs;
+      const { container } = this.$refs
       this.timeline = gsap.to(container, {
         autoAlpha: 1,
-        height: "50vh",
-        marginTop: "2rem",
-        ease: "power1.out",
+        height: '55vh',
+        marginTop: '2rem',
+        ease: 'power1.out',
         duration: 1,
         delay: 0.2,
-        onComplete: this.$emit("update-rect"),
-      });
+        onComplete: this.$emit('update-rect'),
+      })
     },
     reload() {
-      const { reload } = this.$refs;
-      this.$emit("update-image");
+      const { reload } = this.$refs
+      this.$emit('update-image')
 
-      const timeline = gsap.timeline();
+      const timeline = gsap.timeline()
 
       timeline.from(reload, {
         rotate: 360,
         duration: 2.5,
-        ease: "elastic.out(1, 0.3)",
-        clearProps: "all",
-      });
+        ease: 'elastic.out(1, 0.3)',
+      })
     },
   },
   watch: {
     isOpen(appear) {
       if (appear) {
-        this.grow();
+        this.grow()
       } else {
-        this.timeline.reverse();
+        this.timeline.reverse()
       }
     },
   },
   mounted() {
-    this.grow();
+    this.grow()
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import url("../animation/rotate.css");
+@import url('../animation/rotate.css');
 
 .container {
   margin: auto;
@@ -131,7 +130,6 @@ export default {
   border: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent var(--p), var(--default) 0);
   border-radius: 0.5rem;
 }
 
@@ -147,7 +145,7 @@ export default {
   }
 }
 
-[type="range"] {
+[type='range'] {
   --p: calc(var(--value) * 1%);
 
   &,

@@ -24,7 +24,7 @@ a {
 
   &::after {
     position: absolute;
-    content: "";
+    content: '';
     top: 0;
     bottom: 0;
     right: 0;
@@ -53,14 +53,22 @@ a {
   border-radius: 21% 79% 21% 79% / 69% 23% 77% 31%;
   padding: 1rem;
   outline: thin;
-  background: conic-gradient(
-    from -90deg at top left,
-    var(--light),
-    var(--default)
-  );
-  box-shadow: 8px 8px 26px var(--dark), -8px -8px 26px var(--default);
-  transition: all 0.2s ease;
+  background: transparent;
+  backdrop-filter: blur(6px);
+  box-shadow: 8px 8px 6px var(--dark), -8px -8px 6px var(--default),
+    inset 8px 8px 6px var(--dark), inset -8px -8px 6px var(--default);
   color: var(--text);
   cursor: pointer;
   pointer-events: all;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 6px 6px 15px var(--dark), -6px -6px 15px var(--default),
+    inset 6px 6px 6px var(--dark), inset -6px -6px 6px var(--default);
+}
+
+.button:active {
+  box-shadow: 3px 3px 10px var(--dark), -3px -3px 10px var(--default),
+    inset 3px 3px 10px var(--dark), inset -3px -3px 10px var(--default);
 }

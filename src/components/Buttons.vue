@@ -11,11 +11,11 @@
 
 <script>
 export default {
-  name: "Button",
+  name: 'Button',
   props: {
     msg: String,
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -23,11 +23,14 @@ section {
   position: relative;
 }
 .container {
-  position: fixed;
+  position: absolute;
   z-index: 2;
   bottom: 0;
   left: 0;
+  right: 0;
   width: 100%;
+  max-width: 1200px;
+  margin: auto;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -37,14 +40,6 @@ section {
   @media screen and (min-width: 800px) {
     padding: 5rem;
   }
-}
-
-.button:hover {
-  box-shadow: 6px 6px 15px var(--dark), -6px -6px 15px var(--default);
-}
-
-.button:active {
-  box-shadow: 3px 3px 10px var(--dark), -3px -3px 10px var(--default);
 }
 
 .button-a {
